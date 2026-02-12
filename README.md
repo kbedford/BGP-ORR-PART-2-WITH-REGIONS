@@ -461,7 +461,7 @@ inet.0: 45 destinations, 45 routes (45 active, 0 holddown, 0 hidden)
                 Next hop type: Router, Next hop index: 0
                 Next hop: 172.16.0.10 via eth2, selected
                 Session Id: 0
-                Protocol next hop: 10.0.1.31
+                Protocol next hop: 10.0.1.31 <<<< 
                 Indirect next hop: 0x55d2af9c1308 - INH Session ID: 0
                 Indirect next hop: INH non-key opaque: (nil) INH key opaque: (nil)
                 State: <Active Int Ext>
@@ -517,7 +517,7 @@ inet.0: 45 destinations, 45 routes (45 active, 0 holddown, 0 hidden)
                 Session Id: 0
                 Next hop: 172.16.0.10 via eth2
                 Session Id: 0
-                Protocol next hop: 10.0.1.21
+                Protocol next hop: 10.0.1.21 <<<<<
                 Indirect next hop: 0x55d2af9c0b88 - INH Session ID: 0
                 Indirect next hop: INH non-key opaque: (nil) INH key opaque: (nil)
                 State: <Active Int Ext>
@@ -536,6 +536,22 @@ inet.0: 45 destinations, 45 routes (45 active, 0 holddown, 0 hidden)
                 Thread: junos-main
 
 ```
+ORR ON (at a1) — next‑hop shifts to Region D path
+
+Selected next hop: 172.16.0.10 via eth2
+Protocol next hop: 10.0.1.31 (originated by d1)
+Cluster list: 10.0.0.1 10.0.0.4
+Metric2: 20
+Meaning: With ORR enabled, rr1 uses the IGP view of a1 and reflects the path that is best from the client’s perspective. In this topology, that is the path learned from Region D (d1), so a1 forwards toward eth2 (its link toward rr4).
+
+ORR OFF (at a1) — next‑hop shifts to Region C path
+
+Selected next hop: 172.16.0.8 via eth1
+Protocol next hop: 10.0.1.21 (originated by c1)
+Cluster list: 10.0.0.1 10.0.0.3
+Metric2: 30
+Meaning: With ORR disabled, rr1 selects and reflects the best path based on its own IGP view, which favors Region C (c1). The selected next hop flips to eth1 (toward rr1), showing the exact behavior ORR is designed to change.
+
 
 4. Re-enable ORR on `rr1`:
 
@@ -565,7 +581,7 @@ inet.0: 45 destinations, 45 routes (45 active, 0 holddown, 0 hidden)
                 Next hop type: Router, Next hop index: 0
                 Next hop: 172.16.0.10 via eth2, selected
                 Session Id: 0
-                Protocol next hop: 10.0.1.31
+                Protocol next hop: 10.0.1.31 <<<<< 
                 Indirect next hop: 0x55d2af9c1308 - INH Session ID: 0
                 Indirect next hop: INH non-key opaque: (nil) INH key opaque: (nil)
                 State: <Active Int Ext>
