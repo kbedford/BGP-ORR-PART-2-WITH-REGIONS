@@ -227,6 +227,9 @@ inet.0: 49 destinations, 51 routes (49 active, 0 holddown, 0 hidden)
 
 inet6.0: 18 destinations, 21 routes (18 active, 0 holddown, 0 hidden)
 
+```
+This command shows the IGP view used by ORR for the CLIENTS BGP group. ORR is enabled, with 10.0.1.1 (a1) as the active primary and 10.0.1.2 (a2) as the backup. The list of prefixes and their metrics is the IS‑IS shortest‑path view from the primary client, not from rr1. ORR uses these metrics to decide which BGP path to reflect to the client group, so the “best path” is chosen based on the client’s IGP distance rather than the RR’s own distance.
+```
 root@rr1> show isis bgp-orr
 BGP ORR Peer Group: CLIENTS
   Primary: 10.0.1.1, active
